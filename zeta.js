@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.use(express.static(__dirname + '/web-assets'));
 
 app.get('/',function(request,response){
-    response.sendFile(__dirname+"/web-assets/governor.html");    
+    response.sendFile(__dirname+"/web-assets/Distributor.html");    
 });
 
 
@@ -25,7 +25,10 @@ app.post('/api/governor/action/assignshipment',function(request,response)
     console.log("That's a shipment");
 });
 
-
+app.get('/api/distributor/actions/getshipment',function(request,response){
+    response.send([{"name":"soap","value":5,"unit":"piece","description":"Sabona lux"},{"name":"soap","value":5,"unit":"piece","description":"Sabona lux"},{"name":"soap","value":5,"unit":"piece","description":"Sabona lux"}]);
+    console.log("report shipment")
+});
 
 app.post('/api/distributor/action/acceptshipment',function(request,response)
 {

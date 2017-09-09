@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmls="http://www.w3.org/1999/xhtml">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<head>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+       
+<body>
+<h1 style="text-align:center">Zeta Hack the Chain</h1>
+<br>
+<h2 style="text-align:center">Distributor View.</h2>
+
+<form ng-app="myModule">
+    
+  <div ng-controller="myController" ng-init="res=null">
+
+    <label style="margin-left: 4%"><b>Shipment Name</b></label>
+   <input type="text" name="fname" ng-model="name">
+
+    <label style="margin-left: 4%"><b>Comments</b></label>
+    <input type="text" name="lname" ng-model="comments" >
+
+    <label style="margin-left: 4%"><b>Next</b></label>
+    <input type="text" name="lname" ng-model="loc_next" >
+
+    <label style="margin-left: 4%"><b>From</b></label>
+    <input type="text" name="lname" ng-model="loc_from" >
+        
+    <button type="submit" value="submit"  ng-click="submit()">Submit</button>
+    <button type="reset" value="reset" ng-click="reset()" style="background-color:#f44336">Reset</button>
+
+      <table>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Unit</th>
+            <th>Description</th>
+        </tr>
+  <tr ng-repeat="x in names | orderBy : 'name'">
+    <td>{{ x.name }}</td>
+    <td>{{ x.value}}</td>
+    <td>{{ x.unit}}</td>
+    <td>{{ x.description}}</td>
+  </tr>
+
+      </table>
+
+    <button type="getshipment" value="getshipment" ng-click="getshipment()" style="background-color:#256741">Get Shipment</button>
+
+      <br>
+  
+
+  <div class="container" style="background-color:#f1f1f1">
+    <h1>{{res}}</h1>  
+  </div>
+  </div>
+</form>
+    
+
+    <script>
+        var app = angular.module('myModule', []);
+        app.controller('myController', function ($scope, $http, $log) {
+            $scope.reset = function(){
+                $scope.res=null;
+            }
+           $scope.getshipment = function(){
+               $http.get('/api/distributor/actions/getshipment')
+               .then(function (response) {$scope.names = response.data;});
+               
+           }
+            $scope.submit = function(){
+            var data = {"name":$scope.name,"contents":{"content":$scope.comments},"loc_to":$scope.loc_next,"loc_from":$scope.loc_from};
+            var config = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            $http.post('/api/governor/action/assignshipment', data, config)
+                .then(function (response, status, headers, config) {
+                    console.log(response.data);
+                    $scope.res=response.data;
+                }, function myError(response) {
+                    console.log(response.statusText);
+                }, function (reason) {
+                    console.log(reason);
+                });
+                
+
+
+}
+
+        });
+    </script>
+</body>
+</html>
