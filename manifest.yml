@@ -1,0 +1,7 @@
+---
+applications:
+ - name: Zeta
+   memory: 128M
+   routes: 
+   - route: Zeta-Hack-The-Chain.mybluemix.net
+   instances: 1
