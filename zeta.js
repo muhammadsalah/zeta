@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.use(express.static(__dirname + '/web-assets'));
 
 app.get('/',function(request,response){
-    response.sendFile(__dirname+"/web-assets/Distributor.html");    
+    response.sendFile(__dirname+"/web-assets/distributor.html");    
 });
 
 
